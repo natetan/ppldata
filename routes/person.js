@@ -41,7 +41,25 @@ router.route('/:person_id')
 				info: person.info,
 			});
 		});
-	});
+	})
+
+	.put(function(req, res) {
+		Person.findById(req.params.person_id, function(err, person) {
+			if (err) {
+				res.send(err);
+			}
+			person.name = req.body.name;
+			person.age = req.body.age;
+			person.info = req.body.info;
+
+			person.save(function(err) {
+				if (err) {
+					res.send(err);
+				}
+				res.json({ message: 'person has been updated!' });
+			});
+		});
+	})
 
 
 module.exports = router;
